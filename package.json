@@ -1,0 +1,14 @@
+{
+  "name": "yafi",
+  "version": "0.0.0",
+  "description": "Yet Another Flux Implementation",
+  "main": "./src",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Flux"
+  ],
+  "author": "Marcin Kopacz",
+  "license": "BSD-2-Clause"
+}
