@@ -22,7 +22,10 @@ class Store extends EventEmiter {
     return this._dispatcher;
   }
 
-
+  /**
+   * Has changed need to be called during dispatching
+   * @return {Boolean}
+   */
   hasChanged() {
     invariant(
       this._dispatcher.isQueueActive(),
@@ -31,7 +34,9 @@ class Store extends EventEmiter {
     return this._changed;
   }
 
-
+  /**
+   * Emit change need be invoked to inform listeners
+   */
   _emitChange() {
     invariant(
       this._dispatcher.isQueueActive(),
@@ -40,8 +45,11 @@ class Store extends EventEmiter {
     this._changed = true;
   }
 
-
-  _invokeOnDispatch(payload) {
+  /**
+   * This method will be called in Dispatcher when processing
+   * @param  {any} payload
+   */
+  invokeOnDispatch(payload) {
     this._changed = false;
     this._onDispatch(payload);
     if (this._changed) {
@@ -49,7 +57,10 @@ class Store extends EventEmiter {
     }
   }
 
-
+  /**
+   * Each store that Extends Store need to implement this method
+   * @param  {any} payload
+   */
   _onDispatch(payload) {
     invariant(
       false,

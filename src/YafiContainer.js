@@ -1,6 +1,6 @@
 
 
-class YafiContainer{
+class YafiContainer {
 
 }
 

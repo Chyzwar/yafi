@@ -2,9 +2,6 @@ import EventEmiter from 'EventEmiter';
 
 class Queue extends EventEmiter {
   constructor() {
-    /**
-     * Call EventEmiter constructor
-     */
     super();
 
     /**
@@ -28,6 +25,7 @@ class Queue extends EventEmiter {
 
   /**
    * Remove first item from queue
+   * If empty emit stop
    * @return {any}
    */
   dequeue() {

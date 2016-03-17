@@ -12,6 +12,6 @@
   "author": "Marcin Kopacz",
   "license": "BSD-2-Clause",
   "dependencies": {
-    "invariant": "^2.2.1"
+    "invariant": "*"
   }
 }
