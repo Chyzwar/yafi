@@ -8,9 +8,16 @@ class Store extends EventEmiter {
     this._changed = false;
     this._dispatcher = dispatcher;
 
+    /**
+     * Register Store with dispatcher
+     */
     dispatcher.register(this);
   }
 
+  /**
+   * Get current dispatcher
+   * @return {Dispatcher}
+   */
   getDispatcher() {
     return this._dispatcher;
   }
