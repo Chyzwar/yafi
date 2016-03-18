@@ -72,6 +72,7 @@ class Dispatcher {
     this._dispatchingQueue.enqueue(payload);
   }
 
+
   /**
    * Check if queue is active
    * @return {Boolean}
