@@ -1,0 +1,28 @@
+{
+  "name": "isomorphic",
+  "version": "0.0.1",
+  "description": "Isomorhic example for yafi",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack --config webpackfile",
+    "test": ""
+  },
+  "keywords": [
+    "Flux",
+    "yafi"
+  ],
+  "author": "Marcin K",
+  "license": "BSD-2",
+  "devDependencies": {
+    "babel-cli": "*",
+    "babel-core": "*",
+    "babel-loader": "*",
+    "babel-preset-react": "*",
+    "babel-preset-node5": "*",
+    "babel-preset-es2015": "*",
+    "webpack": "beta"
+  },
+  "dependencies": {
+    "react": "*"
+  }
+}
