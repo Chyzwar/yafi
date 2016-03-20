@@ -1,10 +1,11 @@
 {
   "name": "yafi-counter",
   "version": "0.0.1",
-  "description": "Isomorhic example for yafi",
-  "main": "index.js",
+  "description": "Counter example for yafi.",
+  "main": "./src",
   "scripts": {
-    "prestart" " "
+    "compile": "",
+    "prestart": "",
     "start": "webpack --config webpackfile",
     "test": ""
   },
@@ -14,16 +15,22 @@
   ],
   "author": "Marcin K",
   "license": "BSD-2",
+  "dependencies": {
+    "yafi" : "../../",
+    "react": "*",
+    "express": "*"
+  },
   "devDependencies": {
     "babel-core": "*",
     "babel-loader": "*",
     "babel-preset-react": "*",
     "babel-preset-node5": "*",
     "babel-preset-es2015": "*",
-    "webpack": "beta",
+    "webpack": "beta"
   },
-  "dependencies": {
-    "yafi" : "../../",
-    "react": "*"
+  "optionalDependencies": {
+    "eslint": "*",
+    "eslint-plugin-react": "*",
+    "eslint-config-airbnb": "*"
   }
 }

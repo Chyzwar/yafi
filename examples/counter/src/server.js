@@ -1,16 +1,16 @@
 import express from 'express';
 
 const port = 3000;
+const app = express();
 
-let app = express();
-
-app.get("/", function(req, res) {
-  res.sendFile('public/index.html')
+app.get('/', (req, res) => {
+  res.sendFile('public/index.html');
 });
 
-app.listen(port, function(error) {
+app.listen(port, (error) => {
   if (error) {
-    console.error(error)
+    console.error(error);
   } else {
     console.info(`==> 🌎  Listening on port ${port}`);
+  }
 });

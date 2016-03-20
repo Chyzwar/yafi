@@ -1,5 +1,5 @@
 import invariant from 'invariant';
-import EventEmiter from 'EventEmiter';
+import EventEmiter from './EventEmiter';
 
 
 class Store extends EventEmiter {

@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const fs = require('fs');
 
 const plugins = [
   new webpack.DefinePlugin({ 'process.env.NODE_ENV': 'development' }),
@@ -31,6 +32,7 @@ const client = {
     }],
   },
   cache: true,
+  watch: true,
   plugins,
   devtool: 'cheap-module-eval-source-map',
 };
@@ -49,10 +51,11 @@ const server = {
     filename: 'server.js',
   },
   resolve: {
-    modules: ['node_modules'],
+    modules: ['node_modules', 'src'],
     extensions: ['', '.js', '.jsx'],
   },
   target: 'node',
+  externals: fs.readdirSync('node_modules'),
   module: {
     loaders: [{
       test: /\.js?$/,
@@ -63,6 +66,7 @@ const server = {
     }],
   },
   cache: true,
+  watch: true,
   plugins,
   devtool: 'cheap-module-eval-source-map',
 };

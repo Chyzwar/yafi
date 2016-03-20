@@ -4,3 +4,6 @@ build
 
 #npm modules
 node_modules
+
+#npm logs
+npm-debug.log

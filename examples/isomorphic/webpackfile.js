@@ -64,7 +64,7 @@ const server = {
   },
   cache: true,
   plugins,
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'inline-source-map',
 };
 
 module.exports = [client, server];

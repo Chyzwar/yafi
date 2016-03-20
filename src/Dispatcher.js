@@ -1,10 +1,10 @@
 import invariant from 'invariant';
-import Queue from 'Queue';
+import Queue from './Queue';
 
 class Dispatcher {
   constructor() {
     /**
-     * Use Set for stores
+     * Use WeakSet for stores
      * @type {WeakSet}
      */
     this._stores = new WeakSet();

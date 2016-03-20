@@ -1,4 +1,4 @@
-import EventEmiter from 'EventEmiter';
+import EventEmiter from './EventEmiter';
 
 class Queue extends EventEmiter {
   constructor() {
