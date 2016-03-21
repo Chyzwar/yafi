@@ -1,162 +1,107 @@
-import StoreGroup from './StoreGroup';
 import invariant from 'invariant';
-import React from 'react';
-
-class YafiContainer extends React.Component{
-
-}
-
-export default YafiContainer;
-
-
-
-
-
-
-
-type Options = {
-  pure?: ?boolean,
-  withProps?: ?boolean,
-};
-
-var DEFAULT_OPTIONS = {
-  pure: true,
-  withProps: false,
-};
 
 /**
- * A FluxContainer is used to subscribe a react component to multiple stores.
- * The stores that are used must be returned from a static `getStores()` method.
- *
- * The component receives information from the stores via state. The state
- * is generated using a static `calculateState()` method that each container
- * must implement. A simple container may look like:
+ * Get dispatcher from stores
+ * Check if dispatcher is unique
+ * @param  {array} stores
+ * @return {Dispatcher}
  */
-function create<DefaultProps, Props, State>(
-  Base: any,
-  options?: ?Options,
-): ReactClass<DefaultProps, Props, State> {
-  enforceInterface(Base);
+function getStoresDispatcher(stores) {
+  invariant(
+    stores && stores.length,
+    'StoreGroup.getDispatcher(...) Must provide at least one store.'
+  );
 
-  // Construct the options using default, override with user values as necessary.
-  var realOptions = {
-    ...DEFAULT_OPTIONS,
-    ...(options || {}),
-  };
+  const dispatcher = stores[0].getDispatcher();
 
-  class FluxContainerClass extends Base {
-    _fluxContainerStoreGroup: FluxStoreGroup;
-    _fluxContainerSubscriptions: Array<{remove: Function}>;
+  stores.forEach((store) => {
+    invariant(
+      store.getDispatcher() === dispatcher,
+      'StoreGroup.getDispatcher(...): All stores must use the same dispatcher.'
+    );
+  });
+  return dispatcher;
+}
 
-    constructor(props: any) {
+/**
+ * Check if componenent implement required methods.
+ * YafiContainer need these methods.
+ * @param  {BaseClass} ReactClass
+ */
+function enforceInterface(BaseClass) {
+  invariant(
+    BaseClass.getStores,
+    'Components that use YafiContainer must implement `static getStores()`'
+  );
+  invariant(
+    BaseClass.calculateState,
+    'Components that use YafiContainer must implement `static calculateState()`'
+  );
+}
+
+
+function create(BaseClass, options = {}) {
+  /**
+   * Check BaseClass
+   */
+  enforceInterface(BaseClass);
+
+  class YafiContainer extends BaseClass {
+    constructor(props, options) {
       super(props);
-      this.state = realOptions.withProps
-        ? Base.calculateState(null, props)
-        : Base.calculateState(null, undefined);
+      /**
+       * Options
+       * @type {object}
+       */
+      this._options = options;
+
+      /**
+       * Get Stores from base class
+       * @type {array}
+       */
+      this._stores = BaseClass.getStores();
+
+      /**
+       * Get dispatcher from stores
+       * @type {Dispatcher}
+       */
+      this._dispatcher = getStoresDispatcher(this._stores);
     }
 
-    componentDidMount(): void {
+    componentDidMount() {
       if (super.componentDidMount) {
         super.componentDidMount();
       }
 
-      var stores = Base.getStores();
-
-      // This tracks when any store has changed and we may need to update.
-      var changed = false;
-      var setChanged = () => {changed = true;};
-
-      // This adds subscriptions to stores. When a store changes all we do is
-      // set changed to true.
-      this._fluxContainerSubscriptions = stores.map(
-        store => store.addListener(setChanged)
-      );
-
-      // This callback is called after the dispatch of the relevant stores. If
-      // any have reported a change we update the state, then reset changed.
-      var callback = () => {
-        if (changed) {
-          this.setState(prevState => {
-            return realOptions.withProps
-              ? Base.calculateState(prevState, this.props)
-              : Base.calculateState(prevState, undefined);
-          });
-        }
-        changed = false;
-      };
-      this._fluxContainerStoreGroup = new FluxStoreGroup(stores, callback);
     }
 
-    componentWillReceiveProps(nextProps: any, nextContext: any): void {
-      if (super.componentWillReceiveProps) {
-        super.componentWillReceiveProps(nextProps, nextContext);
-      }
-
-      // Don't do anything else if the container is not configured to use props.
-      if (!realOptions.withProps) {
-        return;
-      }
-
-      // If it's pure we can potentially optimize out the calculate state.
-      if (realOptions.pure && shallowEqual(this.props, nextProps)) {
-        return;
-      }
-
-      // Finally update the state using the new props.
-      this.setState(prevState => Base.calculateState(prevState, nextProps));
-    }
-
-    componentWillUnmount(): void {
+    componentWillUnmount() {
       if (super.componentWillUnmount) {
         super.componentWillUnmount();
       }
+    }
 
-      this._fluxContainerStoreGroup.release();
-      for (var subscription of this._fluxContainerSubscriptions) {
-        subscription.remove();
+    shouldComponentUpdate(nextProps, nextState) {
+      if (this._options.isPure) {
+        return shallowCompare(this, nextProps, nextState);
       }
-      this._fluxContainerSubscriptions = [];
+    }
+
+    componentWillReceiveProps(nextProps, nextState) {
+      if (super.componentWillReceiveProps) {
+        super.componentWillReceiveProps(nextProps, nextContext)
+      ;}
     }
   }
 
-  // Make sure we override shouldComponentUpdate only if the pure option is
-  // specified. We can't override this above because we don't want to override
-  // the default behavior on accident. Super works weird with react ES6 classes
-  // right now.
-  var container = realOptions.pure
-    ? createPureContainer(FluxContainerClass)
-    : (FluxContainerClass: any);
+  const baseName = BaseClass.displayName || BaseClass.name;
+  YafiContainer.displayName = `YafiContainer(${baseName})`;
 
-  // Update the name of the container before returning.
-  var componentName = Base.displayName || Base.name;
-  container.displayName = 'FluxContainer(' + componentName + ')';
-
-  return container;
+  return YafiContainer;
 }
 
-// TODO: typecheck this better.
-function createPureContainer(FluxContainerBase: any): any {
-  class PureFluxContainerClass extends FluxContainerBase {
-    shouldComponentUpdate(nextProps: any, nextState: any): boolean {
-      return (
-        !shallowEqual(this.props, nextProps) ||
-        !shallowEqual(this.state, nextState)
-      );
-    }
-  }
-  return PureFluxContainerClass;
-}
 
-function enforceInterface(o: any): void {
-  invariant(
-    o.getStores,
-    'Components that use FluxContainer must implement `static getStores()`'
-  );
-  invariant(
-    o.calculateState,
-    'Components that use FluxContainer must implement `static calculateState()`'
-  );
-}
 
-module.exports = {create};
+
+export default { create };
 
