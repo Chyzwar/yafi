@@ -1,19 +1,25 @@
 import invariant from 'invariant';
+import Store from './Store';
 
-class StoreGroup {
+class StoreGroup extends Store {
   constructor(stores, callback) {
+
     this._stores = stores;
     this._dispatcher = this._findDispatcher(stores);
+    this._callback = callback;
 
-    this._dispatcher.register(payload => {
-      this._dispatcher
-        .waitFor(stores)
-        .then(callback);
-    });
+    this._dispatcher.register(this);
   }
 
   release() {
     this._dispatcher.unregister(this);
+  }
+
+  invokeOnDispatch() {
+    this
+      ._dispatcher
+      .waitForAsync(this._stores)
+      .then(this._callback);
   }
 
   /**
