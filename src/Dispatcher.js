@@ -72,7 +72,20 @@ class Dispatcher {
     this._dispatchingQueue.enqueue(payload);
   }
 
+  /**
+   * Wait for callbacks on selected stores to be called
+   * @param  {array} stores
+   */
   waitFor(stores) {
+
+  }
+
+  /**
+   * Wait till selected stores finish
+   * @param  {array} stores
+   * @return {Promise}
+   */
+  waitForAsync(stores) {
 
   }
 

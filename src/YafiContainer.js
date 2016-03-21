@@ -1,3 +1,4 @@
+import shallowCompare from './utils/shallowCompare';
 import invariant from 'invariant';
 
 /**
@@ -47,7 +48,7 @@ function create(BaseClass, options = {}) {
   enforceInterface(BaseClass);
 
   class YafiContainer extends BaseClass {
-    constructor(props, options) {
+    constructor(props) {
       super(props);
       /**
        * Options
@@ -72,35 +73,44 @@ function create(BaseClass, options = {}) {
       if (super.componentDidMount) {
         super.componentDidMount();
       }
-
     }
 
     componentWillUnmount() {
       if (super.componentWillUnmount) {
         super.componentWillUnmount();
       }
+
+      this._stores.forEach((store) => {
+        this._dispatcher.unregister(store);
+      });
+
+      this._stores = [];
     }
 
     shouldComponentUpdate(nextProps, nextState) {
       if (this._options.isPure) {
         return shallowCompare(this, nextProps, nextState);
       }
+
+      return super.shouldComponentUpdate();
     }
 
     componentWillReceiveProps(nextProps, nextState) {
       if (super.componentWillReceiveProps) {
-        super.componentWillReceiveProps(nextProps, nextContext)
-      ;}
+        super.componentWillReceiveProps(nextProps, nextState);
+      }
     }
   }
 
-  const baseName = BaseClass.displayName || BaseClass.name;
-  YafiContainer.displayName = `YafiContainer(${baseName})`;
+  /**
+   * Set DsiplayName
+   * @type {string}
+   */
+  YafiContainer.displayName = `YafiContainer(${BaseClass.name})`;
+
 
   return YafiContainer;
 }
-
-
 
 
 export default { create };
