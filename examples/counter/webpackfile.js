@@ -11,11 +11,12 @@ const plugins = [
  */
 const client = {
   entry: {
+    vendor: 'babel-polyfill',
     client: './src/client.js',
   },
   output: {
     path: './build/public/',
-    filename: 'client.js',
+    filename: '[name].js',
   },
   resolve: {
     modules: ['node_modules'],
@@ -34,7 +35,7 @@ const client = {
   cache: true,
   watch: true,
   plugins,
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'inline-source-map',
 };
 
 
@@ -68,7 +69,7 @@ const server = {
   cache: true,
   watch: true,
   plugins,
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'inline-source-map',
 };
 
 module.exports = [client, server];
