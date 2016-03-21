@@ -72,6 +72,9 @@ class Dispatcher {
     this._dispatchingQueue.enqueue(payload);
   }
 
+  waitFor(stores) {
+
+  }
 
   /**
    * Check if queue is active
@@ -80,7 +83,6 @@ class Dispatcher {
   isQueueActive() {
     return this._isQueueActive;
   }
-
 
   /**
    * Process payloads for active queue

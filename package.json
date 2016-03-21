@@ -2,7 +2,7 @@
   "name": "yafi",
   "version": "0.0.0",
   "description": "Yet Another Flux Implementation",
-  "main": "index.js",
+  "main": "./src",
   "scripts": {
     "test": ""
   },
