@@ -1,28 +1,4 @@
-import shallowCompare from './utils/shallowCompare';
 import invariant from 'invariant';
-
-/**
- * Get dispatcher from stores
- * Check if dispatcher is unique
- * @param  {array} stores
- * @return {Dispatcher}
- */
-function getStoresDispatcher(stores) {
-  invariant(
-    stores && stores.length,
-    'StoreGroup.getDispatcher(...) Must provide at least one store.'
-  );
-
-  const dispatcher = stores[0].getDispatcher();
-
-  stores.forEach((store) => {
-    invariant(
-      store.getDispatcher() === dispatcher,
-      'StoreGroup.getDispatcher(...): All stores must use the same dispatcher.'
-    );
-  });
-  return dispatcher;
-}
 
 /**
  * Check if componenent implement required methods.
@@ -40,8 +16,7 @@ function enforceInterface(BaseClass) {
   );
 }
 
-
-function create(BaseClass, options = {}) {
+function create(BaseClass, dispatcher, initState) {
   /**
    * Check BaseClass
    */
@@ -50,29 +25,38 @@ function create(BaseClass, options = {}) {
   class Container extends BaseClass {
     constructor(props) {
       super(props);
-      /**
-       * Options
-       * @type {object}
-       */
-      this._options = options;
-
-      /**
-       * Get Stores from base class
-       * @type {array}
-       */
-      this._stores = BaseClass.getStores();
 
       /**
        * Get dispatcher from stores
        * @type {Dispatcher}
        */
-      this._dispatcher = getStoresDispatcher(this._stores);
+      this._dispatcher = dispatcher;
+
+
+      /**
+       * Get Stores from base class,
+       * @type {array}
+       */
+      this._stores = BaseClass.getStores();
+
+      /**
+       * Initialise Stores
+       * @param  {Store} Store
+       */
+      this._stores.map((Store) => {
+        const store = new Store(this._dispatcher);
+
+        return store;
+      });
     }
 
-    componentDidMount() {
-      if (super.componentDidMount) {
-        super.componentDidMount();
-      }
+    get dispatcher() {
+      return this._dispatcher;
+    }
+
+
+    onChange() {
+
     }
 
     componentWillUnmount() {
@@ -85,20 +69,6 @@ function create(BaseClass, options = {}) {
       });
 
       this._stores = [];
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-      if (this._options.isPure) {
-        return shallowCompare(this, nextProps, nextState);
-      }
-
-      return super.shouldComponentUpdate();
-    }
-
-    componentWillReceiveProps(nextProps, nextState) {
-      if (super.componentWillReceiveProps) {
-        super.componentWillReceiveProps(nextProps, nextState);
-      }
     }
   }
 
