@@ -26,17 +26,17 @@ function getStoresDispatcher(stores) {
 
 /**
  * Check if componenent implement required methods.
- * YafiContainer need these methods.
+ * Container need these methods.
  * @param  {BaseClass} ReactClass
  */
 function enforceInterface(BaseClass) {
   invariant(
     BaseClass.getStores,
-    'Components that use YafiContainer must implement `static getStores()`'
+    'Components that use Container must implement `static getStores()`'
   );
   invariant(
     BaseClass.calculateState,
-    'Components that use YafiContainer must implement `static calculateState()`'
+    'Components that use Container must implement `static calculateState()`'
   );
 }
 
@@ -47,7 +47,7 @@ function create(BaseClass, options = {}) {
    */
   enforceInterface(BaseClass);
 
-  class YafiContainer extends BaseClass {
+  class Container extends BaseClass {
     constructor(props) {
       super(props);
       /**
@@ -106,10 +106,10 @@ function create(BaseClass, options = {}) {
    * Set DsiplayName
    * @type {string}
    */
-  YafiContainer.displayName = `YafiContainer(${BaseClass.name})`;
+  Container.displayName = `Container(${BaseClass.name})`;
 
 
-  return YafiContainer;
+  return Container;
 }
 
 
