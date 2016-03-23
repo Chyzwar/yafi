@@ -16,12 +16,16 @@ function enforceInterface(BaseClass) {
   );
 }
 
+
 function create(BaseClass, dispatcher, initState) {
   /**
    * Check BaseClass
    */
   enforceInterface(BaseClass);
 
+  /**
+   * Extend Container to BaseClass
+   */
   class Container extends BaseClass {
     constructor(props) {
       super(props);
@@ -40,14 +44,16 @@ function create(BaseClass, dispatcher, initState) {
       this._stores = BaseClass.getStores();
 
       /**
-       * Initialise Stores
+       * Initialise Stores, with state
        * @param  {Store} Store
        */
-      this._stores.map((Store) => {
-        const store = new Store(this._dispatcher);
+      this._stores = this._stores
+        .map((Store) => {
+          const store = new Store(this._dispatcher);
+          const state = initState[store.name];
 
-        return store;
-      });
+          return state ? store.setState(state) : store;
+        });
     }
 
     get dispatcher() {
