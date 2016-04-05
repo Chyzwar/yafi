@@ -4,6 +4,7 @@
   "description": "Yet Another Flux Implementation",
   "main": "./src/",
   "scripts": {
+    "compile": "babel src --out-dir lib",
     "test": ""
   },
   "keywords": [
@@ -14,4 +15,8 @@
   "dependencies": {
     "invariant": "*"
   }
+  "devDependencies": {
+    "babel-cli": "*",
+    "babel-preset-es2015": "*",
+  },
 }
