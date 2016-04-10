@@ -1,8 +1,8 @@
 {
   "name": "yafi",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Yet Another Flux Implementation",
-  "main": "./src/",
+  "main": "./lib/",
   "scripts": {
     "compile": "babel src --out-dir lib",
     "test": ""
@@ -14,9 +14,9 @@
   "license": "BSD-2-Clause",
   "dependencies": {
     "invariant": "*"
-  }
+  },
   "devDependencies": {
     "babel-cli": "*",
-    "babel-preset-es2015": "*",
-  },
+    "babel-preset-es2015": "*"
+  }
 }
