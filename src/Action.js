@@ -1,5 +1,5 @@
 
-class ActionCreator {
+class Action {
   constructor(dispatcher) {
     /**
      * Pass refrence to current dipatcher
@@ -10,4 +10,4 @@ class ActionCreator {
 }
 
 
-export default ActionCreator;
+export default Action;

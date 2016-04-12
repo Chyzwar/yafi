@@ -2,7 +2,6 @@
 
 
 ## Why?
-  - Less opinionated than redux,ma
-  - ES6 only and transpiller neutral
+  - Less opinionated than redux
   - Close to reference implementation
   - Better support for isomorphic
