@@ -1,8 +1,8 @@
 {
   "name": "yafi",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Yet Another Flux Implementation",
-  "main": "./lib/",
+  "main": "./lib/Yafi",
   "scripts": {
     "compile": "babel src --out-dir lib",
     "test": ""
