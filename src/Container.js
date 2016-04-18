@@ -61,13 +61,14 @@ function create(BaseClass, dispatcher, initState) {
         });
     }
 
-    get dispatcher() {
-      return this._dispatcher;
-    }
-
-
-    onChange() {
-
+    /**
+     * Add dispatcher to Context
+     * @return {object}
+     */
+    getChildContext(){
+      return {
+        dispatcher: this._dispatcher
+      };
     }
 
     componentWillUnmount() {
