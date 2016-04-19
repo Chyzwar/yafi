@@ -1,6 +1,6 @@
 {
   "name": "yafi",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Yet Another Flux Implementation",
   "main": "./lib/Yafi",
   "scripts": {

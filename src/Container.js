@@ -44,7 +44,7 @@ function create(BaseClass, dispatcher, initState) {
       this._stores = BaseClass.getStores();
 
       /**
-       * Initialise Stores, with state
+       * Initialise Stores
        * @param  {Store} Store
        */
       this._stores = this._stores
@@ -53,12 +53,20 @@ function create(BaseClass, dispatcher, initState) {
             Store instanceof Function,
             'BaseClass.getStores(...): need to return Store instances'
           );
+          return new Store(this._dispatcher);
+        }
+      );
 
-          const store = new Store(this._dispatcher);
-          const state = initState[store.name];
+      /**
+       * Initialise State
+       * @type {object}
+       */
+      this.state = this.super.calculateState();
 
-          return state ? store.setState(state) : store;
-        });
+      /**
+       * Merge with initial state if any
+       */
+      Object.assign(this.state, initState);
     }
 
     /**
