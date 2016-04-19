@@ -11,7 +11,7 @@ class Store extends EventEmiter {
     /**
      * Register Store with dispatcher
      */
-    dispatcher.register(this);
+    this._dispatcher.register(this);
   }
 
   /**
@@ -64,8 +64,16 @@ class Store extends EventEmiter {
   _onDispatch(payload) {
     invariant(
       false,
-      `${this.constructor.name} has not overridden Store.__onDispatch(), which is required`
+      `${this.constructor.name} has not overridden Store._onDispatch(), which is required`
     );
+  }
+
+  setState(state){
+    this.state = state;
+  }
+
+  getState(){
+    return this.state;
   }
 }
 

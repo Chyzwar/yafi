@@ -61,7 +61,7 @@ function create(BaseClass, dispatcher, initState) {
        * Initialise State
        * @type {object}
        */
-      this.state = this.super.calculateState();
+      this.state = BaseClass.calculateState();
 
       /**
        * Merge with initial state if any
