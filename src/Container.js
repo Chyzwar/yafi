@@ -27,8 +27,8 @@ function create(BaseClass, dispatcher, initState) {
    * Extend Container to BaseClass
    */
   class Container extends BaseClass {
-    constructor(props) {
-      super(props);
+    constructor(props, context) {
+      super(props, context);
 
       /**
        * Get dispatcher from stores
@@ -49,6 +49,11 @@ function create(BaseClass, dispatcher, initState) {
        */
       this._stores = this._stores
         .map((Store) => {
+          invariant(
+            Store instanceof Function,
+            'BaseClass.getStores(...): need to return Store instances'
+          );
+
           const store = new Store(this._dispatcher);
           const state = initState[store.name];
 
@@ -56,13 +61,14 @@ function create(BaseClass, dispatcher, initState) {
         });
     }
 
-    get dispatcher() {
-      return this._dispatcher;
-    }
-
-
-    onChange() {
-
+    /**
+     * Add dispatcher to Context
+     * @return {object}
+     */
+    getChildContext(){
+      return {
+        dispatcher: this._dispatcher
+      };
     }
 
     componentWillUnmount() {
