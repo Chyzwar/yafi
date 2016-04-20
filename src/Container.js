@@ -7,12 +7,8 @@ import invariant from 'invariant';
  */
 function enforceInterface(BaseClass) {
   invariant(
-    BaseClass.getStores,
-    'Components that use Container must implement `static getStores()`'
-  );
-  invariant(
-    BaseClass.calculateState,
-    'Components that use Container must implement `static calculateState()`'
+    BaseClass.getStoreMapping,
+    'Components that use Container must implement `static getStoreMapping()`'
   );
 }
 
@@ -41,7 +37,7 @@ function create(BaseClass, dispatcher, initState) {
        * Get Stores from base class,
        * @type {array}
        */
-      this._stores = BaseClass.getStores();
+      this.mapping = BaseClass.getStoreMapping();
 
       /**
        * Initialise Stores
@@ -73,9 +69,9 @@ function create(BaseClass, dispatcher, initState) {
      * Add dispatcher to Context
      * @return {object}
      */
-    getChildContext(){
+    getChildContext() {
       return {
-        dispatcher: this._dispatcher
+        dispatcher: this._dispatcher,
       };
     }
 

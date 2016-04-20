@@ -5,6 +5,7 @@ import EventEmiter from './EventEmiter';
 class Store extends EventEmiter {
   constructor(dispatcher) {
     super();
+    this._state = null;
     this._changed = false;
     this._dispatcher = dispatcher;
 
@@ -68,11 +69,19 @@ class Store extends EventEmiter {
     );
   }
 
-  setState(state){
+  /**
+   * Default setState
+   * @param {any} state
+   */
+  setState(state) {
     this.state = state;
   }
 
-  getState(){
+  /**
+   * Default getState
+   * @return {any}
+   */
+  getState() {
     return this.state;
   }
 }
