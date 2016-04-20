@@ -34,35 +34,19 @@ function create(BaseClass, dispatcher, initState) {
 
 
       /**
-       * Get Stores from base class,
+       * Get Stores mapping,
        * @type {array}
        */
-      this.mapping = BaseClass.getStoreMapping();
+      this._mapping = BaseClass.getStoreMapping();
 
-      /**
-       * Initialise Stores
-       * @param  {Store} Store
-       */
-      this._stores = this._stores
-        .map((Store) => {
-          invariant(
-            Store instanceof Function,
-            'BaseClass.getStores(...): need to return Store instances'
-          );
-          return new Store(this._dispatcher);
-        }
-      );
 
-      /**
-       * Initialise State
-       * @type {object}
-       */
-      this.state = BaseClass.calculateState();
+      this._stores = [];
 
-      /**
-       * Merge with initial state if any
-       */
-      Object.assign(this.state, initState);
+
+      for (let key of this._mapping) {
+        let Store = this._mapping[key];
+
+      }
     }
 
     /**
@@ -101,3 +85,27 @@ function create(BaseClass, dispatcher, initState) {
 
 export default { create };
 
+      // /**
+      //  * Initialise Stores
+      //  * @param  {Store} Store
+      //  */
+      // this._stores = this._stores
+      //   .map((Store) => {
+      //     invariant(
+      //       Store instanceof Function,
+      //       'BaseClass.getStores(...): need to return Store instances'
+      //     );
+      //     return new Store(this._dispatcher);
+      //   }
+      // );
+
+      // /**
+      //  * Initialise State
+      //  * @type {object}
+      //  */
+      // this.state = BaseClass.calculateState();
+
+      // /**
+      //  * Merge with initial state if any
+      //  */
+      // Object.assign(this.state, initState);
