@@ -13,7 +13,7 @@ function enforceInterface(BaseClass) {
 }
 
 
-function create(BaseClass, dispatcher, initState) {
+function create(BaseClass, dispatcher, initState = {}) {
   /**
    * Check BaseClass
    */
@@ -30,34 +30,41 @@ function create(BaseClass, dispatcher, initState) {
        * Get dispatcher from stores
        * @type {Dispatcher}
        */
-      this._dispatcher = dispatcher;
+      this.dispatcher = dispatcher;
 
 
       /**
        * Get Stores mapping,
        * @type {array}
        */
-      this._mapping = BaseClass.getStoreMapping();
+      this.mapping = BaseClass.getStoreMapping();
 
+      /**
+       * Initial State
+       * @type {Object}
+       */
+      this.state = initState;
 
-      this._stores = [];
-
-
-      for (let key of this._mapping) {
-        let Store = this._mapping[key];
-
-      }
+      // Object.keys(this.mapping).forEach(key => {
+      //   if (this.state[key]) {
+      //     this.mapping[key].setState(this.state[key]);
+      //   }
+      //   else {
+      //     this.state[key] = this.mapping[key].getState();
+      //   }
+      //   console.log(this.state);
+      // });
     }
 
-    /**
-     * Add dispatcher to Context
-     * @return {object}
-     */
-    getChildContext() {
-      return {
-        dispatcher: this._dispatcher,
-      };
-    }
+    // /**
+    //  * Add dispatcher to Context
+    //  * @return {object}
+    //  */
+    // getChildContext() {
+    //   return {
+    //     dispatcher: this._dispatcher,
+    //   };
+    // }
 
     componentWillUnmount() {
       if (super.componentWillUnmount) {
