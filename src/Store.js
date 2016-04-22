@@ -74,7 +74,7 @@ class Store extends EventEmiter {
    * @param {any} state
    */
   setState(state) {
-    this.state = state;
+    this._state = state;
   }
 
   /**
@@ -82,7 +82,7 @@ class Store extends EventEmiter {
    * @return {any}
    */
   getState() {
-    return this.state;
+    return this._state;
   }
 }
 

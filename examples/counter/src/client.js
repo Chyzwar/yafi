@@ -14,11 +14,11 @@ class CounterActions extends Action{
     super(dispatcher);
   }
 
-  increment(){
+  increment() {
     dispatcher()
   }
 
-  decrement(){
+  decrement() {
 
   }
 }
