@@ -11,6 +11,11 @@ function enforceInterface(BaseClass) {
     BaseClass.getStoreMapping,
     'Components that use Container must implement `static getStoreMapping()`'
   );
+
+  invariant(
+    BaseClass.childContextTypes,
+    'Components that use Container must implement `static childContextTypes()`'
+  );
 }
 
 
@@ -54,15 +59,15 @@ function create(BaseClass, dispatcher, initState = {}) {
       this.state = this._stateMapping.calculateState();
     }
 
-    // /**
-    //  * Add dispatcher to Context
-    //  * @return {object}
-    //  */
-    // getChildContext() {
-    //   return {
-    //     dispatcher: this._dispatcher,
-    //   };
-    // }
+    /**
+     * Add dispatcher to Context
+     * @return {object}
+     */
+    getChildContext() {
+      return {
+        dispatcher: this._dispatcher,
+      };
+    }
   }
 
   /**
