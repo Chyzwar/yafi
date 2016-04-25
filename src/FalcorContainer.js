@@ -1,4 +1,5 @@
 import StateMapping from './StateMapping';
+import Dispatcher from './Dispatcher';
 import invariant from 'invariant';
 
 /**
@@ -14,7 +15,7 @@ function enforceInterface(BaseClass) {
 }
 
 
-function create(BaseClass, dispatcher, initState = {}) {
+function create(BaseClass) {
   /**
    * Check BaseClass
    */
@@ -31,7 +32,7 @@ function create(BaseClass, dispatcher, initState = {}) {
        * Get dispatcher from stores
        * @type {Dispatcher}
        */
-      this.dispatcher = dispatcher;
+      this.dispatcher = new Dispatcher();
 
       /**
        * Key to Store Mapping
