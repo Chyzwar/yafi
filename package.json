@@ -1,8 +1,10 @@
 {
   "name": "yafi",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Yet Another Flux Implementation",
+  "repository": "https://github.com/Chyzwar/yafi",
   "main": "./lib/Yafi",
+  "jsnext:main": "./src/Yafi",
   "scripts": {
     "compile": "babel src --out-dir lib --presets es2015",
     "test": ""
